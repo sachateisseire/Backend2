@@ -71,7 +71,6 @@ class ProductManager {
 
 const productManager = new ProductManager();
 
-
 productManager.addProduct({
   title: 'Trigo',
   description: 'Descripción del trigo',
