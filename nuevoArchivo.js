@@ -4,7 +4,7 @@ class ProductManager {
 
     constructor(path) {
         this.path = path;
-        this.products = JSON.parse(fs.readFileSync(path)) || [];
+        this.products = JSON.parse(fs.readFileSync('./products.js')) || [];
         this.proximoId = 1;
     }
 
@@ -65,6 +65,18 @@ class ProductManager {
     }
 
     save() {
-        fs.writeFileSync(this.path, JSON.stringify(this.products));
+        fs.writeFileSync('./products.js', JSON.stringify(this.products));
     }
 }
+
+const productManager = new ProductManager();
+
+
+productManager.addProduct({
+  title: 'Trigo',
+  description: 'Descripción del trigo',
+  price: 500,
+  thumbnail: 'http://',
+  code: 'codigo1',
+  stock: 2200
+});
