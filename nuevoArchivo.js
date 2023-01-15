@@ -1,77 +1,70 @@
-// CLASE //
+import fs from 'fs'
 
 class ProductManager {
 
-    constructor() {
-
-
-      this.products = [];
-      this.proximoId = 1;
+    constructor(path) {
+        this.path = path;
+        this.products = JSON.parse(fs.readFileSync(path)) || [];
+        this.proximoId = 1;
     }
-  
+
     addProduct(product) {
-      if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
             console.log('¡¡Debes completar todos los campos!!');
-        return;
+            return;
+        }
 
-      }
-  
-      const existenteProducto = this.products.find(p => p.code === product.code);
+        const existenteProducto = this.products.find(p => p.code === product.code);
         if (existenteProducto) {
-        console.log('Ya ingresaste un producto con ese código');
-        return;
-      }
-  
-      product.id = this.proximoId++;
+            console.log('Ya ingresaste un producto con ese código');
+            return;
+        }
 
-
-      this.products.push(product)
+        product.id = this.proximoId++;
+        this.products.push(product);
+        this.save();
     }
-  
+
     getProducts() {
-      return this.products;
+        return this.products;
     }
-  
+
     getProductById(id) {
-      const product = this.products.find(p => p.id === id);
+        const product = this.products.find(p => p.id === id);
 
         if (!product) {
-        console.log('Not found');
-        return;
-      }
-  
-      return product;
+            console.log('Not found');
+            return;
+        }
+
+        return product;
     }
-  }
 
-// AGREGAR PRODUCTOS ///
+    modifyProduct(id, newProduct) {
+        const index = this.products.findIndex(p => p.id === id);
 
-  const productManager = new ProductManager();
+        if (index === -1) {
+            console.log('Producto no encontrado');
+            return;
+        }
 
+        this.products[index] = { ...this.products[index], ...newProduct };
+        this.save();
+    }
 
-productManager.addProduct({
-  title: 'Trigo',
-  description: 'Descripción del trigo',
-  price: 500,
-  thumbnail: 'http://',
-  code: 'codigo1',
-  stock: 2200
-});
+    deleteProduct(id) {
+        const index = this.products.findIndex(p => p.id === id);
 
-productManager.addProduct({
-  title: 'Maíz',
-  description: 'Descripción del maiz',
-  price: 350,
-  thumbnail: 'http://',
-  code: 'codigo2',
-  stock: 3220
-});
+        if (index === -1) {
+            console.log('Producto no encontrado');
+            return;
+        }
 
-// TESTEO //
+        this.products.splice(index, 1);
+        this.save();
+    }
 
-console.log(productManager.getProducts())
-
-const product = productManager.getProductById(1);
-console.log(product);
-
-productManager.getProductById(2)
+    save() {
+        fs.writeFileSync(this.path, JSON.stringify(this.products));
+    }
+}
