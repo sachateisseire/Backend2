@@ -79,14 +79,5 @@ productManager.addProduct({
   code: 'codigo1',
   stock: 2200
 });
+ 
 
-const productManager2 = new ProductManager();
-
-productManager2.addProduct({
-  title: 'Avena',
-  description: 'Descripción de la avena',
-  price: 100,
-  thumbnail: 'http://',
-  code: 'codigo3',
-  stock: 2300
-});
