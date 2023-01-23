@@ -4,7 +4,7 @@ class ProductManager {
 
     constructor(path) {
         this.path = path;
-        this.products = JSON.parse(fs.readFileSync('./products.js')) || [];
+        this.products = JSON.parse(fs.readFileSync('./products.json')) || [];
         this.proximoId = 1;
     }
 
@@ -65,7 +65,7 @@ class ProductManager {
     }
 
     save() {
-        fs.writeFileSync('./products.js', JSON.stringify(this.products));
+        fs.writeFileSync('./products.json', JSON.stringify(this.products));
     }
 }
 
@@ -78,4 +78,15 @@ productManager.addProduct({
   thumbnail: 'http://',
   code: 'codigo1',
   stock: 2200
+});
+
+const productManager2 = new ProductManager();
+
+productManager2.addProduct({
+  title: 'Avena',
+  description: 'Descripción de la avena',
+  price: 100,
+  thumbnail: 'http://',
+  code: 'codigo3',
+  stock: 2300
 });
