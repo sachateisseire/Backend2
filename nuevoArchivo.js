@@ -33,7 +33,7 @@ app.get('/products/:pid', async (req, res) => {
     res.send('Producto no encontrado');
     }
     res.json({ product });
-    });
+});
 
 
 class ProductManager {
